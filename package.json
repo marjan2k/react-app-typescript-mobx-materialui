@@ -1,0 +1,42 @@
+{
+  "name": "create-react-app-with-typescript",
+  "version": "3.2.2",
+  "private": true,
+  "main": "src/index.tsx",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "mobx": "^4.6.0",
+    "mobx-react": "^5.3.6",
+    "@material-ui/core": "^3.5.1",
+    "@material-ui/icons": "^3.0.1",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "react-beautiful-dnd": "^10.0.1",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-scripts": "latest"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "latest",
+    "@babel/plugin-proposal-decorators": "latest",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "@types/react-beautiful-dnd": "^7.1.2",
+    "typescript": "latest"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
