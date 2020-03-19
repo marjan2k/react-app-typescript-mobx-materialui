@@ -1,38 +1,39 @@
-import {action, observable} from "mobx";
-import TriviaQA from "../Collections/TriviaQA";
-import NumberFact from "../Collections/NumberFact";
-import ChuckNorrisFact from "../Collections/ChuckNorrisFact";
-import AdviceSlip from "../Collections/AdviceSlip";
+import { action, observable } from 'mobx';
+import UserCollection from '../Collections/UserCollection';
+
+
+const userPhotoURLS = [
+  'https://www.flickr.com/photos/vincgalery/',
+  'https://www.flickr.com/photos/128476074@N08/',
+  'https://www.flickr.com/photos/angeltaipefotografia/',
+  'https://www.flickr.com/photos/jptimmons/',
+  'https://www.flickr.com/photos/monegka/',
+];
+
+const collectionIndexStorageKey = 'setCollectionIndex';
 
 export class RootStore {
-  @observable TriviaQA = new TriviaQA();
-  @observable NumberFact = new NumberFact();
-  @observable ChuckNorrisFact = new ChuckNorrisFact();
-  @observable AdviceSlip = new AdviceSlip();
-  @observable collectionOrderNames = ['TriviaQA', 'NumberFact', 'AdviceSlip', 'ChuckNorrisFact',];
-  @observable collections = [this.TriviaQA, this.NumberFact, this.AdviceSlip, this.ChuckNorrisFact];
-  @observable collectionOrder = this.collections;
+  @observable userCollections: UserCollection[] = [];
+  @observable selectedUserCollection: UserCollection;
+
   constructor() {
-    const orderNamesInLocalStorage = localStorage.getItem('collectionOrderNames');
-    // const collections = this.collections;
-    if(orderNamesInLocalStorage) {
-      const collectionOrderNames = JSON.parse(orderNamesInLocalStorage);
-      this.collectionOrder = collectionOrderNames.map((collectionName: string) =>
-        this.collections.find(collection => collection.name === collectionName));
+    this.userCollections = userPhotoURLS.map(url => new UserCollection(url));
+
+    const collectionIndexInLocalStorage = localStorage.getItem(collectionIndexStorageKey);
+
+    if (collectionIndexInLocalStorage && this.userCollections[collectionIndexInLocalStorage]) {
+      this.selectedUserCollection = this.userCollections[collectionIndexInLocalStorage];
+    } else {
+      this.selectedUserCollection = this.userCollections[0];
     }
   }
 
   @action.bound
-  setCollectionOrder(collectionOrder) {
-    this.collectionOrder = collectionOrder;
-    this.collectionOrderNames = collectionOrder.map(collection => collection.name);
-    localStorage.setItem('collectionOrderNames', JSON.stringify(this.collectionOrderNames));
-  }
-
-  @action.bound
-  reorder = (collectionOrder, startIndex, endIndex) => {
-    const [removed] = collectionOrder.splice(startIndex, 1);
-    collectionOrder.splice(endIndex, 0, removed);
-    this.setCollectionOrder(collectionOrder);
+  setSelectedUserCollection = (userCollection: UserCollection) => () => {
+    this.selectedUserCollection = userCollection;
+    const collectionIndex = this.userCollections.findIndex(collection => collection === userCollection);
+    if (collectionIndex) {
+      localStorage.setItem(collectionIndexStorageKey, JSON.stringify(collectionIndex));
+    }
   };
 }
