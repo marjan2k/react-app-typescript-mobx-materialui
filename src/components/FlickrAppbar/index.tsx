@@ -1,10 +1,8 @@
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import AppBar from '@material-ui/core/AppBar';
-import React, { memo } from 'react';
+import React from 'react';
+import { inject, observer } from 'mobx-react';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { drawerWidth } from '../../pages/Dashboard';
-import { inject, observer } from 'mobx-react';
 import { IStore } from '../../store/RootStore/interface/IStore';
 import { RootStore } from '../../store/RootStore';
 
@@ -22,10 +20,9 @@ interface IFlickrAppbar {
   store?: IStore;
 }
 
-
-const FlickrAppbar = inject('store')(observer(({store}: IFlickrAppbar) => {
+const FlickrAppbar = inject('store')(observer(({ store }: IFlickrAppbar) => {
   const classes = useStyles();
-  const { selectedUserCollection: {userName} } = store as RootStore;
+  const { selectedUserCollection: { userName } } = store as RootStore;
 
   return (
     <AppBar position="fixed" className={classes.appBar}>

@@ -20,16 +20,13 @@
     "mobx": "^4.15.4",
     "mobx-react": "^6.1.8",
     "react": "^16.9.5",
-    "react-beautiful-dnd": "^10.0.1",
     "react-dom": "^16.9.5",
     "react-scripts": "^3.4.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.8.3",
     "@babel/plugin-proposal-decorators": "^7.8.3",
-    "@types/jest": "^25.1.4",
     "@types/node": "^13.9.2",
-    "@types/react-beautiful-dnd": "^12.1.2",
     "typescript": "^3.8.3"
   },
   "eslintConfig": {

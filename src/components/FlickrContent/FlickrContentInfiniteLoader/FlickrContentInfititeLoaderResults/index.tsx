@@ -44,7 +44,7 @@ const FlickrContentInfititeLoaderResults = observer(({ results }) => {
       <GridListResponsive>
         {results.map((result, index) => (
           <GridListTile key={result.imgSrc} cols={1}>
-            <img src={result.imgSrc} alt={`User Photo ${index + 1}`} />
+            <img src={result.imgSrc} alt={`pic number ${index + 1}`} />
           </GridListTile>
         ))}
       </GridListResponsive>
