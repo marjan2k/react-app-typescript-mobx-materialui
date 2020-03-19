@@ -74,7 +74,7 @@ class Index extends React.Component<IStore> {
                           provided.draggableProps.style
                         )}
                       >
-                        <Grid container justify='center' spacing={16} alignContent='stretch'>
+                        <Grid container justify='center' spacing={8} alignContent='stretch'>
                           <InfoCard key={collectionStore.name} collectionStore={collectionStore} />
                         </Grid>
                       </div>

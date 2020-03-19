@@ -19,7 +19,7 @@ interface ILiveTimestamp {
 const styles = (theme: Theme) =>
   createStyles({
     name: {
-      paddingLeft: theme.spacing.unit * 2,
+      paddingLeft: theme.spacing(2),
     },
   });
 
