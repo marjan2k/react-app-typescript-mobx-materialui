@@ -1,9 +1,9 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import withRoot from '../../withRoot';
-import FlickrDrawer from '../../components/FlickrDrawer';
-import FlickrAppbar from '../../components/FlickrAppbar';
-import FlickrContent from '../../components/FlickrContent';
+import PayTMDrawer from '../../components/PayTMDrawer';
+import PayTMAppbar from '../../components/PayTMAppbar';
+import PayTMContent from '../../components/PayTMContent';
 
 
 export const drawerWidth = 240;
@@ -21,9 +21,9 @@ function Dashboard() {
 
   return (
     <div className={classes.root}>
-      <FlickrAppbar />
-      <FlickrDrawer />
-      <FlickrContent />
+      <PayTMAppbar />
+      <PayTMDrawer />
+      <PayTMContent />
     </div>
   );
 }

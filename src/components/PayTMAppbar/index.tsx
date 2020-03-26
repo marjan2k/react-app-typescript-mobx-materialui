@@ -1,10 +1,10 @@
 import React from 'react';
 import { inject, observer } from 'mobx-react';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Grid, Toolbar, Typography } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { mainCurrency } from '../../store/RootStore';
 import { drawerWidth } from '../../pages/Dashboard';
 import { IStore } from '../../store/RootStore/interface/IStore';
-import { RootStore } from '../../store/RootStore';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,23 +16,31 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface IFlickrAppbar {
+interface IPayTMAppbar {
   store?: IStore;
 }
 
-const FlickrAppbar = inject('store')(observer(({ store }: IFlickrAppbar) => {
+const PayTMAppbar = inject('store')(observer(({ store }: IPayTMAppbar) => {
   const classes = useStyles();
-  const { selectedUserCollection: { userName } } = store as RootStore;
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
-        <Typography variant="h6" noWrap>
-          {userName}
-        </Typography>
+        <Grid container justify='space-between'>
+          <Grid item>
+            <Typography variant="h6" noWrap>
+              Receipt Management
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography>
+              Default currency: <b>{mainCurrency}</b>
+            </Typography>
+          </Grid>
+        </Grid>
       </Toolbar>
     </AppBar>
   );
 }));
 
-export default FlickrAppbar;
+export default PayTMAppbar;

@@ -1,4 +1,4 @@
-import { Grid } from '@material-ui/core';
+import { Grid, ListItem, ListItemText } from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import Drawer from '@material-ui/core/Drawer';
@@ -7,11 +7,9 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { drawerWidth } from '../../pages/Dashboard';
 import { inject, observer } from 'mobx-react';
 import { IStore } from '../../store/RootStore/interface/IStore';
-import { RootStore } from '../../store/RootStore';
-import FlickrDrawerUserItem from './FlickrDrawerUserItem';
 
 
-const logoUrl = 'https://cdn.kustomerhostedcontent.com/media/5aecd7338a0607779d1ec9cc/b1446148194f331b2171c82cc2eb1a81.png';
+const logoUrl = 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Paytm_logo.jpg';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,14 +38,12 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface IFlickrDrawer {
+interface IPayTMDrawer {
   store?: IStore;
 }
 
-const FlickrDrawer = inject('store')(observer(({ store }: IFlickrDrawer) => {
+const PayTMDrawer = inject('store')(observer(({ store }: IPayTMDrawer) => {
   const classes = useStyles();
-  const { userCollections, selectedUserCollection, setSelectedUserCollection } = store as RootStore;
-
   return (
     <Drawer
       className={classes.drawer}
@@ -60,7 +56,7 @@ const FlickrDrawer = inject('store')(observer(({ store }: IFlickrDrawer) => {
           <div>
             <img
               src={logoUrl}
-              alt='Flickr'
+              alt='PayTM'
               className={classes.logo}
             />
           </div>
@@ -68,18 +64,13 @@ const FlickrDrawer = inject('store')(observer(({ store }: IFlickrDrawer) => {
       </div>
       <Divider />
       <List>
-        {userCollections.map((userCollection) => (
-          <FlickrDrawerUserItem
-            selected={userCollection === selectedUserCollection}
-            setSelected={setSelectedUserCollection}
-            userCollection={userCollection}
-            key={userCollection.userPhotoUrl}
-          />
-        ))}
+        <ListItem button>
+          <ListItemText primary='Receipts' />
+        </ListItem>
       </List>
       <Divider />
     </Drawer>
   );
 }));
 
-export default FlickrDrawer;
+export default PayTMDrawer;

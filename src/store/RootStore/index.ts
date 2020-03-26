@@ -1,39 +1,47 @@
-import { action, observable } from 'mobx';
-import UserCollection from '../Collections/UserCollection';
+import { action, computed, observable } from 'mobx';
+import ReceiptCollection from '../Collections/ReceiptCollection';
+import currentExchangeRate from '../../services/api/get/currentExchangeRate';
 
 
-const userPhotoURLS = [
-  'https://www.flickr.com/photos/vincgalery/',
-  'https://www.flickr.com/photos/128476074@N08/',
-  'https://www.flickr.com/photos/angeltaipefotografia/',
-  'https://www.flickr.com/photos/jptimmons/',
-  'https://www.flickr.com/photos/monegka/',
-];
-
-const collectionIndexStorageKey = 'setCollectionIndex';
+export const mainCurrency = 'CAD';
 
 export class RootStore {
-  @observable userCollections: UserCollection[] = [];
-  @observable selectedUserCollection: UserCollection;
+  @observable receiptCollections: ReceiptCollection[] = [];
+  @observable exchangeRates;
 
   constructor() {
-    this.userCollections = userPhotoURLS.map(url => new UserCollection(url));
+    this.downloadExchangeRates(mainCurrency);
+  }
 
-    const collectionIndexInLocalStorage = localStorage.getItem(collectionIndexStorageKey);
+  @computed get availableRates() {
+    return this.exchangeRates && this.exchangeRates.rates && Object.keys(this.exchangeRates.rates);
+  }
 
-    if (collectionIndexInLocalStorage && this.userCollections[collectionIndexInLocalStorage]) {
-      this.selectedUserCollection = this.userCollections[collectionIndexInLocalStorage];
-    } else {
-      this.selectedUserCollection = this.userCollections[0];
-    }
+  @computed get totalAmount() {
+    return this.receiptCollections.reduce((acc, curr) => {
+      return acc + parseFloat(curr.amount) / this.exchangeRates.rates[curr.currency];
+    }, 0);
   }
 
   @action.bound
-  setSelectedUserCollection = (userCollection: UserCollection) => () => {
-    this.selectedUserCollection = userCollection;
-    const collectionIndex = this.userCollections.findIndex(collection => collection === userCollection);
-    if (collectionIndex) {
-      localStorage.setItem(collectionIndexStorageKey, JSON.stringify(collectionIndex));
-    }
+  async downloadExchangeRates(currency) {
+    this.exchangeRates = await currentExchangeRate(currency);
+  }
+
+  @action.bound
+  setReceipts = (receipts: ReceiptCollection[]) => {
+    this.receiptCollections = receipts;
   };
+
+  @action.bound
+  addReceipt() {
+    this.setReceipts([...this.receiptCollections, new ReceiptCollection()]);
+  };
+
+  @action.bound
+  submitReceipts() {
+    console.log('Receipts');
+    this.receiptCollections.forEach(receipt => console.log(`${receipt.description}: ${receipt.amount} ${receipt.currency}`));
+    console.log(`Total Amount: ${this.totalAmount} ${mainCurrency}`);
+  }
 }
